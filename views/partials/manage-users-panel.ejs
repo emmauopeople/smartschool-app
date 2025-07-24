@@ -1,0 +1,74 @@
+<!-- Registration Form -->
+<div class="card mb-4">
+  <div class="card-header bg-primary text-white">Register New User</div>
+  <div class="card-body">
+    <form action="/users/register" method="POST">
+      <div class="row g-3">
+        <div class="col-md-4">
+          <input type="text" name="username" class="form-control" placeholder="Username" required>
+        </div>
+        <div class="col-md-4">
+          <input type="password" name="password" class="form-control" placeholder="Temporary Password" required>
+        </div>
+        <div class="col-md-4">
+          <select name="role" class="form-select" required>
+            <option value="">Select Role</option>
+            <option value="top-admin">Top Admin</option>
+            <option value="mid-admin">Mid Admin</option>
+            <option value="low-admin">Low Admin</option>
+            <option value="material-mng">Material Manager</option>
+            <option value="account-mng">Account Manager</option>
+            <option value="teacher">Teacher</option>
+          </select>
+        </div>
+      </div>
+      <div class="row g-3 mt-2">
+        <div class="col-md-3"><input type="text" name="first_name" class="form-control" placeholder="First Name"></div>
+        <div class="col-md-3"><input type="text" name="last_name" class="form-control" placeholder="Last Name"></div>
+        <div class="col-md-3"><input type="email" name="email" class="form-control" placeholder="Email"></div>
+        <div class="col-md-3"><input type="text" name="phone" class="form-control" placeholder="Phone"></div>
+      </div>
+      <div class="mt-3 text-end">
+        <button type="submit" class="btn btn-success">Create User</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Users Table -->
+<div class="card">
+  <div class="card-header bg-secondary text-white">Registered Users</div>
+  <div class="card-body">
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Full Name</th>
+          <th>Role</th>
+          <th>Email</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% users.forEach(user => { %>
+          <tr>
+            <td><%= user.username %></td>
+            <td><%= user.first_name %> <%= user.last_name %></td>
+            <td><%= user.role %></td>
+            <td><%= user.email %></td>
+            <td><%= user.status %></td>
+            <td>
+              <form action="/users/<%= user.id %>/status" method="POST" style="display:inline-block">
+                <button type="submit" class="btn btn-sm <%= user.status === 'active' ? 'btn-outline-danger' : 'btn-outline-success' %>">
+                  <%= user.status === 'active' ? 'Deactivate' : 'Activate' %>
+                </button>
+              </form>
+              <a href="/users/<%= user.id %>/edit" class="btn btn-sm btn-outline-primary ms-1">Edit</a>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>
